@@ -6,6 +6,7 @@ import (
 
 	"github.com/Alexamakans/wharf-common-api-client/pkg/apiclient"
 	"github.com/Alexamakans/wharf-common-api-client/pkg/remoteprovider"
+	"github.com/iver-wharf/wharf-api-client-go/pkg/wharfapi"
 )
 
 // Client implements remoteprovider.Client.
@@ -72,10 +73,12 @@ func (c *Client) FetchProjectByGroupAndProjectName(groupName, projectName string
 		return remoteprovider.WharfProject{}, fmt.Errorf("failed getting project named %s in %s: %w", projName, groupName, err)
 	}
 
-	var project remoteprovider.WharfProject
-	project.RemoteProjectID = repo.ID
-	project.GitURL = repo.SSHURL
-	project.Name = repo.Name
+	project := wharfapi.Project{
+		Name:            repo.Name,
+		GroupName:       fmt.Sprintf("%s/%s", orgName, repo.Project.Name),
+		Description:     repo.Project.Description,
+		GitURL:          repo.SSHURL,
+		RemoteProjectID: repo.ID}
 
 	return project, nil
 }
