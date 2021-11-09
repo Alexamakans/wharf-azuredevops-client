@@ -15,9 +15,9 @@ type Client struct {
 	remoteprovider.BaseClient
 }
 
-func NewClient(ctx context.Context, token, apiURLPrefix, remoteProviderURL string) *Client {
+func NewClient(ctx context.Context, token, remoteProviderURL string) *Client {
 	return &Client{
-		*remoteprovider.NewClient(ctx, token, apiURLPrefix, remoteProviderURL),
+		*remoteprovider.NewClient(ctx, token, remoteProviderURL),
 	}
 }
 
